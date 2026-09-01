@@ -21,12 +21,20 @@
             background-color: transparent;
         }
 
+        /* GRELHA RESPONSIVA - FORÇA 3 COLUNAS EM DESKTOP E 1 EM MOBILE */
         .interviews-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 24px;
             max-width: 1200px;
             margin: 0 auto;
+            grid-template-columns: 1fr; /* Mobile por defeito */
+        }
+
+        /* Em ecrãs a partir de 768px (tablets e desktop), força 3 colunas */
+        @media (min-width: 768px) {
+            .interviews-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
         .card {
@@ -44,10 +52,12 @@
             box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
 
+        /* SOLUÇÃO DE IMAGEM NOS CARTÕES */
         .card-img {
             width: 100%;
-            height: 250px;
+            height: 380px; 
             object-fit: cover;
+            object-position: top center;
             border-bottom: 3px solid var(--primary);
         }
 
@@ -136,10 +146,11 @@
             justify-content: center;
         }
 
+        /* SOLUÇÃO DE IMAGEM NOS POP-UPS */
         .modal-header-img {
             width: 100%;
-            height: 300px;
-            object-fit: cover;
+            height: auto; 
+            max-height: none; 
         }
 
         .modal-body {
@@ -190,39 +201,38 @@
 </head>
 <body>
 
-   /* 1. GRELHA RESPONSIVA */
-        .interviews-grid {
-            display: grid;
-            gap: 24px;
-            max-width: 1200px;
-            margin: 0 auto;
-            /* Por defeito (mobile), fica numa única coluna */
-            grid-template-columns: 1fr; 
-        }
+    <div class="interviews-grid">
+        <!-- Entrevista 1 -->
+        <div class="card" onclick="openModal('modal1')">
+            <img src="https://imagens.publico.pt/imagens.aspx/2113035?tp=UH&db=IMAGENS&type=JPG" alt="António Salgado" class="card-img">
+            <div class="card-content">
+                <h3 class="card-name">António Salgado</h3>
+                <p class="card-title">Vice-Reitor para a Investigação e Política Científica</p>
+                <p class="card-quote">“O conhecimento produzido na Universidade pode gerar impacto económico e social”</p>
+            </div>
+        </div>
 
-        /* Em ecrãs a partir de 768px (tablets e desktop), força 3 colunas */
-        @media (min-width: 768px) {
-            .interviews-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
+        <!-- Entrevista 2 -->
+        <div class="card" onclick="openModal('modal2')">
+            <img src="https://imagens.publico.pt/imagens.aspx/2113036?tp=UH&db=IMAGENS&type=JPG" alt="Carlos Videira" class="card-img">
+            <div class="card-content">
+                <h3 class="card-name">Carlos Videira</h3>
+                <p class="card-title">Pró-Reitor para a Participação Universitária e Ligação ao Território</p>
+                <p class="card-quote">“Dar maior visibilidade à investigação e à inovação que se fazem na UMinho”</p>
+            </div>
+        </div>
 
-        /* 2. ALINHAMENTO DAS FOTOGRAFIAS NOS CARTÕES */
-        .card-img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            object-position: top center; /* <--- Esta é a magia que impede o corte das cabeças */
-            border-bottom: 3px solid var(--primary);
-        }
+        <!-- Entrevista 3 -->
+        <div class="card" onclick="openModal('modal3')">
+            <img src="https://imagens.publico.pt/imagens.aspx/2113037?tp=UH&db=IMAGENS&type=JPG" alt="Raúl Fangueiro" class="card-img">
+            <div class="card-content">
+                <h3 class="card-name">Raúl Fangueiro</h3>
+                <p class="card-title">Pró-Reitor para a Inovação, Empreendedorismo e Valorização do Conhecimento</p>
+                <p class="card-quote">“Apostar em modelos mistos de empreendedorismo entre academia e empresas”</p>
+            </div>
+        </div>
+    </div>
 
-        /* 3. ALINHAMENTO DAS FOTOGRAFIAS NO POP-UP */
-        .modal-header-img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            object-position: top center; /* <--- Aplica a mesma magia no topo do modal */
-        }
     <!-- Modal 1 -->
     <div class="modal-overlay" id="modal1" onclick="closeModal(event, 'modal1')">
         <div class="modal-content">
@@ -292,11 +302,10 @@
     <script>
         function openModal(id) {
             document.getElementById(id).classList.add('active');
-            document.body.style.overflow = 'hidden'; // Impede scroll na página de fundo
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeModal(event, id) {
-            // Fecha apenas se clicar fora da caixa branca
             if (event.target.id === id) {
                 document.getElementById(id).classList.remove('active');
                 document.body.style.overflow = 'auto';

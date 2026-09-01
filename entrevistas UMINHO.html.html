@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrevistas UMinho Open Days</title>
+    <style>
+        :root {
+            --primary: #000000;
+            --bg: #ffffff;
+            --grey: #f4f4f4;
+            --text: #333333;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-serif: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: var(--font-main);
+            background-color: transparent;
+        }
+
+        .interviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--bg);
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0 0 5px 0;
+            color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 0.85rem;
+            color: #666;
+            margin: 0 0 15px 0;
+            line-height: 1.4;
+        }
+
+        .card-quote {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--text);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.75);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--bg);
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            border-radius: 12px;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-btn {
+            position: sticky;
+            top: 15px;
+            float: right;
+            right: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-header-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-quote {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .qa-block {
+            margin-bottom: 25px;
+        }
+
+        .question {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .answer {
+            font-family: var(--font-serif);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text);
+        }
+
+        .context-tag {
+            display: inline-block;
+            background: var(--grey);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="interviews-grid">
+        <!-- Entrevista 1 -->
+        <div class="card" onclick="openModal('modal1')">
+            <img src="https://imagens.publico.pt/imagens.aspx/2113035?tp=UH&db=IMAGENS&type=JPG" alt="António Salgado" class="card-img">
+            <div class="card-content">
+                <h3 class="card-name">António Salgado</h3>
+                <p class="card-title">Vice-Reitor para a Investigação e Política Científica</p>
+                <p class="card-quote">“O conhecimento produzido na Universidade pode gerar impacto económico e social”</p>
+            </div>
+        </div>
+
+        <!-- Entrevista 2 -->
+        <div class="card" onclick="openModal('modal2')">
+            <img src="https://imagens.publico.pt/imagens.aspx/2113036?tp=UH&db=IMAGENS&type=JPG" alt="Carlos Videira" class="card-img">
+            <div class="card-content">
+                <h3 class="card-name">Carlos Videira</h3>
+                <p class="card-title">Pró-Reitor para a Participação Universitária e Ligação ao Território</p>
+                <p class="card-quote">“Dar maior visibilidade à investigação e à inovação que se fazem na UMinho”</p>
+            </div>
+        </div>
+
+        <!-- Entrevista 3 -->
+        <div class="card" onclick="openModal('modal3')">
+            <img src="https://imagens.publico.pt/imagens.aspx/2113037?tp=UH&db=IMAGENS&type=JPG" alt="Raúl Fangueiro" class="card-img">
+            <div class="card-content">
+                <h3 class="card-name">Raúl Fangueiro</h3>
+                <p class="card-title">Pró-Reitor para a Inovação, Empreendedorismo e Valorização do Conhecimento</p>
+                <p class="card-quote">“Apostar em modelos mistos de empreendedorismo entre academia e empresas”</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 1 -->
+    <div class="modal-overlay" id="modal1" onclick="closeModal(event, 'modal1')">
+        <div class="modal-content">
+            <button class="close-btn" onclick="document.getElementById('modal1').classList.remove('active')">&times;</button>
+            <img src="https://imagens.publico.pt/imagens.aspx/2113035?tp=UH&db=IMAGENS&type=JPG" class="modal-header-img">
+            <div class="modal-body">
+                <div class="context-tag">Nanosatélites, carros eléctricos e solas que ganham nova vida</div>
+                <h2 class="modal-quote">“O conhecimento produzido na Universidade pode gerar impacto económico e social”</h2>
+                
+                <div class="qa-block">
+                    <div class="question">Qual é a razão desta iniciativa?</div>
+                    <div class="answer">Queremos mostrar que existe um percurso entre a produção de conhecimento e a criação de valor. Nem toda a investigação tem, nem deve ter, uma aplicação imediata. A investigação fundamental é essencial porque cria o conhecimento sobre o qual se constroem as inovações do futuro. Mas uma universidade como a UMinho deve também ser capaz de criar condições para que parte desse conhecimento seja transferido, transformando-se em novas tecnologias, produtos, empresas, políticas públicas ou soluções para problemas concretos. Os Open Days procuram precisamente tornar esse percurso visível: mostrar ciência, mas também demonstrar como o conhecimento produzido na Universidade pode gerar impacto económico e social.</div>
+                </div>
+
+                <div class="qa-block">
+                    <div class="question">Os Open Days mostram mais de 50 protótipos e projectos em áreas muito diferentes. O que é que esta diversidade diz sobre a capacidade científica da Universidade do Minho?</div>
+                    <div class="answer">Diria que demonstra, antes de mais, duas características muito importantes da investigação realizada na Universidade do Minho: a sua excelência e diversidade, mas também a capacidade crescente de trabalhar de forma interdisciplinar. Os desafios com que hoje nos confrontamos dificilmente podem ser resolvidos dentro das fronteiras de uma única disciplina. Saúde, mobilidade, energia, sustentabilidade ou transformação digital exigem cada vez mais a convergência de diferentes áreas do conhecimento.<br><br>Essa realidade está bem patente na Mostra Tecnológica. Encontramos soluções para a saúde e diagnóstico, novos materiais, mobilidade sustentável, armazenamento de energia, fabricação aditiva, tecnologias espaciais, inteligência artificial, biotecnologia, agro-alimentar ou transformação das indústrias tradicionais.<br><br>Esta diversidade é também um reflexo da qualidade das nossas Unidades de Investigação. Cerca de 85% dos centros de investigação da UMinho avaliados pela FCT encontram-se classificados nos dois níveis mais elevados. Isso traduz a qualidade das equipas que fomos capazes de construir e consolidar ao longo dos últimos anos.<br><br>Mas há outro aspecto que considero particularmente relevante: a exposição não mostra apenas resultados científicos. Muitos dos protótipos e tecnologias apresentados resultam de projectos desenvolvidos em colaboração com empresas. Isso demonstra que existe na UMinho uma capacidade significativa de fazer a ponte entre investigação fundamental, investigação aplicada e inovação.<br><br>Uma universidade não deve abandonar a investigação fundamental para procurar impacto. Pelo contrário: deve ser excelente na produção de conhecimento e, simultaneamente, possuir um ecossistema que permita reconhecer quando esse conhecimento tem potencial para ser transferido e valorizado. É essa combinação que pretendemos evidenciar nestes Open Days.</div>
+                </div>
+
+                <div class="qa-block">
+                    <div class="question">As carreiras científicas são um tema das conferências. Que oportunidades e desafios se colocam e como está a UMinho a atrair e reter investigadores de excelência?</div>
+                    <div class="answer">Este é provavelmente um dos maiores desafios do sistema científico português. Nas últimas duas décadas, Portugal fez um investimento muito significativo na formação e atracção de recursos humanos altamente qualificados. As universidades portuguesas têm hoje uma geração de investigadores extremamente competitiva internacionalmente, e seria um erro estratégico não criar condições para preservar e potenciar esse capital científico.<br><br>O desafio não é apenas reter talento na academia. Precisamos de um ecossistema capaz de proporcionar carreiras diversificadas aos doutorados, nas universidades e centros de investigação, mas também nas empresas, hospitais, administração pública e organizações de base tecnológica. Num país que pretende aumentar a intensidade de conhecimento da sua economia, o doutoramento não pode ser entendido exclusivamente como preparação para uma carreira académica.<br><br>Na Universidade do Minho temos procurado aproveitar diferentes instrumentos nacionais e europeus para atrair e estabilizar investigadores e criar condições para que possam desenvolver linhas de investigação próprias e competir por financiamento internacional.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2 -->
+    <div class="modal-overlay" id="modal2" onclick="closeModal(event, 'modal2')">
+        <div class="modal-content">
+            <button class="close-btn" onclick="document.getElementById('modal2').classList.remove('active')">&times;</button>
+            <img src="https://imagens.publico.pt/imagens.aspx/2113036?tp=UH&db=IMAGENS&type=JPG" class="modal-header-img">
+            <div class="modal-body">
+                <div class="context-tag">Nanosatélites, carros eléctricos e solas que ganham nova vida</div>
+                <h2 class="modal-quote">“Dar maior visibilidade à investigação e à inovação que se fazem na UMinho”</h2>
+                
+                <div class="qa-block">
+                    <div class="question">Quando chegar ao fim dos Open Days, que objectivos espera terem sido cumpridos?</div>
+                    <div class="answer">Gostaria, desde logo, que os Open Days ajudassem a dar maior visibilidade à investigação e à inovação que se fazem na Universidade do Minho. Temos muita coisa a acontecer na Universidade que nem sempre é suficientemente conhecida fora dela.<br><br>Queremos, sobretudo, aproveitar estes três dias para criar encontros entre investigadores, empresas, investidores, empreendedores e instituições públicas e, a partir daí, gerar novas relações e novas oportunidades de colaboração.</div>
+                </div>
+
+                <div class="qa-block">
+                    <div class="question">Que impacto a 5/10 anos gostaria que esta edição dos UMinho Research & Innovation Open Days tivesse na investigação, na UMinho e no território onde está?</div>
+                    <div class="answer">Gostaria que fosse cada vez mais normal uma empresa procurar a Universidade quando tem um problema tecnológico ou uma ideia para desenvolver; que um município saiba que pode trazer à UMinho um desafio concreto do seu território; e que os nossos investigadores encontrem mais facilmente, fora da Universidade, parceiros com quem possam testar, aplicar e valorizar aquilo que desenvolvem.<br><br>Não acho que isso se consiga com um evento, naturalmente. Mas estes momentos ajudam a criar relações, a dar a conhecer competências e, muitas vezes, a colocar à mesma mesa pessoas que de outra forma dificilmente se encontrariam.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3 -->
+    <div class="modal-overlay" id="modal3" onclick="closeModal(event, 'modal3')">
+        <div class="modal-content">
+            <button class="close-btn" onclick="document.getElementById('modal3').classList.remove('active')">&times;</button>
+            <img src="https://imagens.publico.pt/imagens.aspx/2113037?tp=UH&db=IMAGENS&type=JPG" class="modal-header-img">
+            <div class="modal-body">
+                <div class="context-tag">Nanosatélites, carros eléctricos e solas que ganham nova vida</div>
+                <h2 class="modal-quote">“Apostar em modelos mistos de empreendedorismo entre academia e empresas”</h2>
+                
+                <div class="qa-block">
+                    <div class="question">Os Open Days apresentam soluções que têm vocação empresarial. Quantos destes projectos estão a caminhar para a comercialização ou para a criação de novas empresas?</div>
+                    <div class="answer">Há uma característica destes Open Days que importa sublinhar: não estamos a apresentar apenas ideias ou investigação numa fase inicial. Procurámos seleccionar para demonstração soluções com níveis elevados de maturidade tecnológica, muitas delas em TRL 7 ou superior, portanto já validadas em condições próximas da aplicação real.<br><br>Estamos, por isso, perante tecnologias em que a questão já não é apenas perceber se existe potencial de aplicação, mas identificar qual o melhor caminho para as fazer chegar ao mercado ou à sociedade.<br><br>Esse percurso pode acontecer de diferentes formas: através do empreendedorismo académico, com a criação de spin-offs a partir do conhecimento desenvolvido na Universidade; através do empreendedorismo empresarial, quando uma empresa incorpora uma tecnologia da UMinho numa nova solução ou oportunidade de negócio; ou através de modelos mistos de empreendedorismo, juntando academia e empresas na criação de novos negócios.<br><br>A UMinho tem já um percurso muito significativo nestas diferentes dimensões. Deu origem, até hoje, a 61 spin-offs, e um exemplo particularmente interessante é a SOLFARCOS, uma spin-off académica já consolidada a operar na área da saúde.<br><br>Mas a valorização do conhecimento não se faz apenas através da criação de novas empresas. Ao longo dos anos, a UMinho participou no desenvolvimento de centenas de tecnologias, produtos e soluções em colaboração com empresas nacionais e estrangeiras. Podemos referir, entre muitos outros exemplos, a garrafa de gás Pluma ou os capacetes e coletes de protecção balística para militares portugueses. São casos muito diferentes, mas demonstram como o conhecimento e a capacidade científica e tecnológica da Universidade podem ser transformados, em colaboração com empresas, em produtos e soluções que chegam efectivamente ao mercado ou a contextos reais de utilização.<br><br>É também por isso que queremos apostar cada vez mais em modelos mistos de empreendedorismo entre academia e empresas. Em determinadas situações, a Universidade pode aportar conhecimento, tecnologia, propriedade intelectual e talento, enquanto as empresas aportam conhecimento do mercado, capacidade industrial, clientes, canais comerciais ou investimento. A combinação destas competências pode acelerar significativamente o percurso entre uma tecnologia promissora e a sua chegada ao mercado.<br><br>Por isso, não devemos medir o sucesso apenas pelo número de novas empresas criadas. Uma tecnologia pode chegar ao mercado através de uma spin-off, de um licenciamento, da sua incorporação numa empresa existente ou de um novo projecto empresarial conjunto. O objectivo é encontrar, para cada resultado de investigação, o melhor caminho para transformar conhecimento em valor e impacto.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+            document.body.style.overflow = 'hidden'; // Impede scroll na página de fundo
+        }
+
+        function closeModal(event, id) {
+            // Fecha apenas se clicar fora da caixa branca
+            if (event.target.id === id) {
+                document.getElementById(id).classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+    </script>
+</body>
+</html>
